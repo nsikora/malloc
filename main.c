@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 11:36:41 by nsikora           #+#    #+#             */
-/*   Updated: 2019/09/19 11:34:28 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/09/23 10:58:25 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int 		main()
 {
 	struct 	rlimit rlim;
 	size_t	lel;
+	char	*str;
 
 	int resources[] = {RLIMIT_CORE, RLIMIT_CPU, RLIMIT_DATA, RLIMIT_FSIZE, RLIMIT_MEMLOCK,
 		RLIMIT_NOFILE, RLIMIT_NPROC, RLIMIT_RSS, RLIMIT_STACK};
@@ -41,6 +42,8 @@ int 		main()
 	}
 	lel = getpagesize();
 	printf("%zu\n", lel);
+	
+	str = malloc(32);
 	return (0);
 }
 
