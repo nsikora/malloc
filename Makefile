@@ -6,7 +6,7 @@
 #    By: nsikora <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/23 16:56:40 by nsikora           #+#    #+#              #
-#    Updated: 2019/09/23 10:58:49 by nsikora          ###   ########.fr        #
+#    Updated: 2019/09/24 17:00:54 by nsikora          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJS	=	$(SRCS:.c=.o)
 
 RM		=	rm -f
 
-INCLUDE	=	malloc.h
+INCLUDE	=	includes\malloc.h
 
 SRCS	=	main.c \
 			malloc.c

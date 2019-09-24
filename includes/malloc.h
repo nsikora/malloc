@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:55:39 by nsikora           #+#    #+#             */
-/*   Updated: 2019/09/19 15:15:25 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/09/24 17:11:33 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,28 @@
 #include <unistd.h>
 #include "libft/libft.h"
 
-# define TINY 4096
-# define SMALL 40960
-
-typedef struct s_rlimit
+typedef struct			s_header
 {
-	size_t		cur;
-	size_t		max;
-}				t_rlimit;
+	void				*array;
+	size_t				header_nb;
+}						t_header;
 
-typedef struct s_link
+typedef struct			s_content
 {
-	void		*end;
-	void		*next;
-}				t_link;
+	void				*array;
+	size_t				*size;
+}						t_content;
 
-void	*initialize_page(size_t page_size);
+typedef struct			s_page_management
+{
+	struct s_header		*header;
+	struct s_content	*content;
+	void 				*page;
+	size_t				pagesize;
+}						t_link;
+
+void	*initialize_page(size_t size, struct s_page_management controller);
+void    *write_memory(size_t size, struct s_page_management controller);
 void    *malloc(size_t size);
-void	*expand_page(size_t size, size_t page_size, void *str);
 
 #endif

@@ -6,59 +6,48 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/09/23 10:57:46 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/09/24 17:11:31 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "includes/malloc.h"
 
-void		*initialize_page(size_t page_size)
+void							*initialize_page(size_t size, struct s_page_management controller)
 {
-	void 	*str;
+	size_t						tiny;
+	size_t						small;
+	size_t						large;
 
-	if (size <= TINY)
-	{
-		if ((str = mmap(NULL, TINY * 100, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
-			return (NULL);
-	}
-	if (size > TINY && size <= SMALL)
-	{
-		if ((str = mmap(NULL, SMALL * 100, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
-			return (NULL);
-	}
-	if (size > SMALL) {
-		if ((str = mmap(NULL, SMALL * 10000, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
-			return (NULL);
-	}
-	return (str);
+	tiny = getpagesize();
+	small = tiny * 100;
+	large = small * 100;
+		
+	if (size <= tiny)
+		controller.pagesize = tiny;
+	if (size > tiny && size <= small)
+		controller.pagesize = small;
+	if (size > small)
+		controller.pagesize = large;
+	if ((controller.page = mmap(NULL, controller.pagesize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+		return (NULL);
+	return (controller.page);
 }
 
-void		*malloc(size_t size)
+void							*write_memory(size_t size, struct s_page_management controller)
 {
-	size_t	page_size;
-	void	*str;
-
-	if ((page_size = (size_t)getpagesize()) <= 0)
-		return (str);
-	if (page_size < size)
-	{
-		if ((str = initialize_page(page_size)) == NULL)
-			return (NULL);
-		while (page_size < size)
-		{
-			size = size - page_size;
-			expand_page(size, page_size, *str)
-		}
-	}
-	else
-	{
-		if ((str = initialize_page(size)) == NULL)
-			return (NULL);
-	}
-	return (str);
+	size = size + 1;
+	return (controller.content[0].array);
 }
 
-void		*expand_page(size_t size, size_t page_size, void *str)
+void							*malloc(size_t size)
 {
+	char						*str;
+	struct	s_page_management	controller;
+	
+	controller.header = NULL;
+	controller.content = NULL;
+	if ((controller.page = initialize_page(size, controller)) == NULL)
+		return (NULL);
+	str =  write_memory(size, controller);
 	return (str);
 }
