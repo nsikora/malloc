@@ -11,10 +11,33 @@
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
+#include <stdio.h>
 
-void							*initialize_page(size_t size, struct s_page_management controller)
+t_page_management *g_controller = NULL;
+
+char initialize_controller(void)
+{
+    if ((g_controller = mmap(NULL, getpagesize(), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+        return (0);
+    g_controller->bande = NULL;
+    g_controller->pagesize = getpagesize();
+    return (1);
+}
+
+size_t getHeaderPageSize(void)
+{
+    size_t size;
+
+    size = sizeof(t_header) * 100;
+    size = (size % g_controller->pagesize) ?
+            size / g_controller->pagesize + 1 : size / g_controller->pagesize;
+    return (size * g_controller->pagesize);
+}
+
+char							initialize_page(size_t size)
 {
 	size_t						tiny;
+    size_t zone;
 	size_t						small;
 	size_t						large;
 
@@ -23,41 +46,49 @@ void							*initialize_page(size_t size, struct s_page_management controller)
 	large = small * 100;
 		
 	if (size <= tiny)
-		controller.pagesize = tiny;
-	if (size > tiny && size <= small)
-		controller.pagesize = small;
-	if (size > small)
-		controller.pagesize = large;
-	if ((controller.page = mmap(NULL, controller.pagesize, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
-		return (NULL);
-	return (controller.page);
+        zone = (tiny * 100) + getHeaderPageSize();
+	else if (size > tiny && size <= small)
+        zone = (small * 100) + getHeaderPageSize();
+	else
+        zone = (large * 100) + getHeaderPageSize();
+	if ((g_controller->bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+		return (0);
+	g_controller->pagesize = zone;
+	printf("%p, %p\n", g_controller->bande, g_controller->bande + zone);
+	return (1);
 }
 
-void							*write_memory(size_t size, struct s_page_management controller)
+void							*write_memory(size_t size)
 {
-	size_t						i;
+    t_header *headers;
+    size_t content_size;
+    int n;
 
-	i = 0;
-	while (controller.header->array[i] != NULL)
-	{
-		i++;
-	}
-	if (size + i < controller.pagesize)
-	{
-	
-	}
-	return (controller.content[0].array);
+    if (!g_controller->bande)
+        return (NULL);
+    headers = (t_header *)g_controller->bande;
+    n = 0;
+    content_size = 0;
+    while (headers[n].zone)
+    {
+        content_size += headers[n].size;
+        n = n + 1;
+    }
+    headers[n].zone = g_controller->bande + (g_controller->pagesize - content_size - size);
+    headers[n].size = size;
+
+    return (headers[n].zone);
 }
 
-void							*malloc(size_t size)
+void							*ft_malloc(size_t size)
 {
 	char						*str;
-	struct	s_page_management	controller;
 
-	controller.header = NULL;
-	controller.content = NULL;
-	if ((controller.page = initialize_page(size, controller)) == NULL)
+	if (!g_controller && !initialize_controller())
+        return (NULL);
+	// check bande dispo
+    if (!(initialize_page(size)))
 		return (NULL);
-	str =  write_memory(size, controller);
+	str =  write_memory(size);
 	return (str);
 }
