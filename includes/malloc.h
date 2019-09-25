@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:55:39 by nsikora           #+#    #+#             */
-/*   Updated: 2019/09/24 17:11:33 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/09/25 17:01:03 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 
 typedef struct			s_header
 {
-	void				*array;
-	size_t				header_nb;
+	void				**array;
 }						t_header;
 
 typedef struct			s_content
 {
-	void				*array;
+	void				**array;
 	size_t				*size;
 }						t_content;
 

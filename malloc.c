@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/09/24 17:11:31 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/09/25 17:01:09 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,17 @@ void							*initialize_page(size_t size, struct s_page_management controller)
 
 void							*write_memory(size_t size, struct s_page_management controller)
 {
-	size = size + 1;
+	size_t						i;
+
+	i = 0;
+	while (controller.header->array[i] != NULL)
+	{
+		i++;
+	}
+	if (size + i < controller.pagesize)
+	{
+	
+	}
 	return (controller.content[0].array);
 }
 
@@ -43,7 +53,7 @@ void							*malloc(size_t size)
 {
 	char						*str;
 	struct	s_page_management	controller;
-	
+
 	controller.header = NULL;
 	controller.content = NULL;
 	if ((controller.page = initialize_page(size, controller)) == NULL)
