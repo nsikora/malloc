@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/09/25 17:01:09 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/07 14:56:25 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 t_page_management *g_controller = NULL;
 
-char initialize_controller(void)
+char					initialize_controller(void)
 {
     if ((g_controller = mmap(NULL, getpagesize(), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
         return (0);
@@ -24,9 +24,9 @@ char initialize_controller(void)
     return (1);
 }
 
-size_t getHeaderPageSize(void)
+size_t					getHeaderPageSize(void)
 {
-    size_t size;
+    size_t				size;
 
     size = sizeof(t_header) * 100 + sizeof(t_bande_management);
     size = (size % g_controller->pagesize) ?
@@ -34,7 +34,7 @@ size_t getHeaderPageSize(void)
     return (size * g_controller->pagesize);
 }
 
-void                            *bande_retriever(void)
+void					*bande_retriever(void)
 {
     t_bande_management *bande = g_controller->bande;
 
@@ -43,14 +43,14 @@ void                            *bande_retriever(void)
     return (bande);
 }
 
-void							*initialize_bande(size_t size)
+void					*initialize_bande(size_t size)
 {
-	size_t						tiny;
-    size_t zone;
-	size_t						small;
-	size_t						large;
-	t_bande_management          *bande;
-	t_bande_management          *last_bande;
+	size_t				tiny;
+    size_t				zone;
+	size_t				small;
+	size_t				large;
+	t_bande_management	*bande;
+	t_bande_management	*last_bande;
 
 	tiny = getpagesize();
 	small = tiny * 100;
@@ -80,11 +80,11 @@ void							*initialize_bande(size_t size)
 	return (bande);
 }
 
-void							*write_memory(size_t size, void *bande)
+void					*write_memory(size_t size, void *bande)
 {
-    t_header *headers;
-    size_t content_size;
-    int n;
+    t_header			*headers;
+    size_t				content_size;
+    int					n;
 
     headers = ((t_header *)(bande) + sizeof(t_bande_management));
     n = 0;
@@ -100,11 +100,11 @@ void							*write_memory(size_t size, void *bande)
     return (headers[n].zone);
 }
 
-void                            *ft_bande_checker(size_t size)
+void					*ft_bande_checker(size_t size)
 {
-    void    *bande;
-    t_header    *header;
-    int n;
+    void				*bande;
+    t_header			*header;
+    int					n;
 
     bande = g_controller->bande;
     while (bande) {
@@ -123,10 +123,10 @@ void                            *ft_bande_checker(size_t size)
     return (NULL);
 }
 
-void							*ft_malloc(size_t size)
+void					*ft_malloc(size_t size)
 {
-	char						*str;
-	void                        *bande;
+	char				*str;
+	void				*bande;
 
 	if (!g_controller && !initialize_controller())
         return (NULL);

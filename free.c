@@ -6,14 +6,14 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/07 11:25:56 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/07 14:54:09 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "malloc.h"
+#include "includes/malloc.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void				*ft_memmove(void *dst, const void *src, size_t len)
 {
     size_t			i;
     unsigned char	*c_src;
@@ -41,10 +41,10 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
     return (dst);
 }
 
-void            free_memory(t_header *header)
+void            	free_memory(t_header *header)
 {
-    t_header *last;
-    int n;
+    t_header		*last;
+    int				n;
 
     last = header;
     n = 0;
@@ -60,11 +60,11 @@ void            free_memory(t_header *header)
     }
 }
 
-void            pointer_finder(void *ptr)
+void            	pointer_finder(void *ptr)
 {
-    void *bande;
-    t_header *header;
-    int n;
+    void			*bande;
+	int				n;
+    t_header		*header;
 
     bande = g_controller->bande;
 
@@ -84,7 +84,7 @@ void            pointer_finder(void *ptr)
     }
 }
 
-void            free(void *ptr)
+void            	free(void *ptr)
 {
     if (!g_controller || !g_controller->bande || !ptr)
         return ;
