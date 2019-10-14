@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/07 14:56:25 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/07 16:02:19 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void					*initialize_bande(size_t size)
         zone = (large * 100) + getHeaderPageSize();
 	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
-
-    printf("Hello\n");
 	if (!g_controller->bande)
 	    g_controller->bande = bande;
 	else
@@ -76,7 +74,6 @@ void					*initialize_bande(size_t size)
 
     bande->size = zone;
     bande->next = NULL;
-    printf("%p, %p, %lu\n", bande, (void *)bande + bande->size, bande->size);
 	return (bande);
 }
 

@@ -6,40 +6,12 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/07 14:56:59 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/14 11:34:25 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include "libft/libft.h"
 #include "includes/malloc.h"
-
-void				*ft_memmove(void *dst, const void *src, size_t len)
-{
-    size_t			i;
-    unsigned char	*c_src;
-    unsigned char	*c_dst;
-
-    i = 0;
-    c_src = (unsigned char*)src;
-    c_dst = (unsigned char*)dst;
-    if (c_src > c_dst)
-    {
-        while (i < len)
-        {
-            c_dst[i] = c_src[i];
-            i++;
-        }
-    }
-    else
-    {
-        while (len > 0)
-        {
-            c_dst[len - 1] = c_src[len - 1];
-            len--;
-        }
-    }
-    return (dst);
-}
 
 void            	free_memory(t_header *header)
 {
@@ -79,7 +51,6 @@ void            	pointer_finder(void *ptr)
                 return free_memory(header + n);
             n = n + 1;
         }
-
         bande = ((t_bande_management *)bande)->next;
     }
 }
@@ -88,6 +59,5 @@ void            	free(void *ptr)
 {
     if (!g_controller || !g_controller->bande || !ptr)
         return ;
-
     pointer_finder(ptr);
 }

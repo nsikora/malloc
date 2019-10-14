@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:55:39 by nsikora           #+#    #+#             */
-/*   Updated: 2019/09/25 17:01:03 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/14 11:34:31 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct			s_page_management
 void	*initialize_bande(size_t size);
 void    *write_memory(size_t size, void *bande);
 void    *ft_malloc(size_t size);
+void	free(void *ptr);
 
 extern t_page_management *g_controller;
 

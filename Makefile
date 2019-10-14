@@ -6,7 +6,7 @@
 #    By: nsikora <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/23 16:56:40 by nsikora           #+#    #+#              #
-#    Updated: 2019/09/24 17:00:54 by nsikora          ###   ########.fr        #
+#    Updated: 2019/10/07 16:44:00 by nsikora          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ RM		=	rm -f
 INCLUDE	=	includes\malloc.h
 
 SRCS	=	main.c \
-			malloc.c
+			malloc.c \
+			free.c
 
 all: 		$(NAME)
 
