@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 14:46:57 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/15 16:19:31 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void					*initialize_bande(size_t size)
 	else if (size > tiny && size <= small)
 		zone = (small * 100) + getHeaderPageSize();
 	else
-		zone = (large * 100) + getHeaderPageSize();
+		zone = size;
 	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	if (!g_controller->bande)

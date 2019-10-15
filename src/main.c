@@ -10,7 +10,7 @@ int main()
 {
     char    *(str[1024]);
 
-    for (int n = 0 ; n < 1024 ; n ++) {
+    for (int n = 0 ; n < 1024; n ++) {
         str[n] = ft_malloc(getpagesize());
       	//ft_free(str[n]);
     }
