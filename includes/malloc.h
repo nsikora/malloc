@@ -37,7 +37,7 @@ typedef struct			s_page_management
 void	*initialize_bande(size_t size);
 void    *write_memory(size_t size, void *bande);
 void    *ft_malloc(size_t size);
-void	free(void *ptr);
+char	ft_free(void *ptr);
 
 extern t_page_management *g_controller;
 

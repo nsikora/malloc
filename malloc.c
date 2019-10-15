@@ -64,6 +64,7 @@ void					*initialize_bande(size_t size)
         zone = (large * 100) + getHeaderPageSize();
 	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
+//    printf("Mmap %p\n", (void *)bande);
 	if (!g_controller->bande)
 	    g_controller->bande = bande;
 	else

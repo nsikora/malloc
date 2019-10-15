@@ -8,10 +8,17 @@
 
 int main()
 {
+    char    *(str[1024]);
+
     for (int n = 0 ; n < 1024 ; n ++) {
-        char *str = ft_malloc(getpagesize());
-        memcpy(str, "Hello World !", 14);
-        printf("%p, %p, %s, %d\n", str, str + getpagesize(), str, n);
+        str[n] = ft_malloc(getpagesize());
+        memcpy(str[n], "Hello World !", 14);
+//printf("%p\n", str[n]);
+        //        printf("%p, %p, %s, %d\n", str[n], str[n] + getpagesize(), str[n], n);
+    }
+
+    for (int n = 0 ; n < 1024 ; n ++) {
+        ft_free(str[n]);
     }
    return (0);
 }
