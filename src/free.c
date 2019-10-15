@@ -6,13 +6,12 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 11:02:53 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/15 13:33:27 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "includes/malloc.h"
-#include <stdio.h>
 
 static char				free_memory(t_header *header)
 {
@@ -83,7 +82,7 @@ static char				ft_bande_checker(void)
 static char				pointer_finder(void *ptr)
 {
 	void				*bande;
-	int					n;
+	int				n;
 	t_header			*header;
 
 	bande = g_controller->bande;
@@ -95,7 +94,7 @@ static char				pointer_finder(void *ptr)
 		{
 			if (header[n].zone == ptr)
 				return (free_memory(header + n));
-			n = n + 1;
+			n++;
 		}
 		bande = ((t_bande_management *)bande)->next;
 	}

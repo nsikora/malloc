@@ -6,34 +6,41 @@
 #    By: nsikora <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/23 16:56:40 by nsikora           #+#    #+#              #
-#    Updated: 2019/10/07 16:44:00 by nsikora          ###   ########.fr        #
+#    Updated: 2019/10/15 15:52:56 by nsikora          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	malloc
 
-CC		=	gcc
+CC	=	/usr/bin/gcc
 
 CFLAGS	=	-Wall -Wextra -Werror
 
-OBJS	=	$(SRCS:.c=.o)
+OBJS    =	$(addprefix $(SRCDIRS)/, $(SRCS:.c=.o))
 
-RM		=	rm -f
+RM	=	/bin/rm -f
 
-INCLUDE	=	includes\malloc.h
+SRCDIRS	=	src
 
-SRCS	=	main.c \
-			malloc.c \
-			free.c
+SRCS	=	main.c			\
+		malloc.c		\
+		show_alloc_mem.c	\
+		free.c			\
 
-all: 		$(NAME)
+INCLUDE	=	-I includes -I libft
+
+LIBFT	=	libft/libft.a
+
+all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
+	$(CC) -o $(NAME) $(OBJS) $(INCLUDE) -L ./libft -lft
+
+$(LIBFT):
 	make -C libft
-	$(CC) -o $(NAME) $(OBJS) -I . -L./libft -lft
 
 %.o: %.c
-	$(CC) -o $@ -c $< -I . $(CFLAGS)
+	$(CC) -o $@ -c $< -I . $(INCLUDE) $(CFLAGS)
 
 clean:
 	make clean -C libft
