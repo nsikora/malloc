@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 15:59:05 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/15 17:00:07 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ void			show_alloc_mem(void)
 	void		*bande;
 	t_header	*header;
 	int		n;
+	size_t		total;
 
 	if (!g_controller || !g_controller->bande)
 		return ;
 	bande = g_controller->bande;
+	total = 0;
 	while (bande)
 	{
 		header = ((t_header *)(bande) + sizeof(t_bande_management));
@@ -47,9 +49,11 @@ void			show_alloc_mem(void)
 		n--;
 		while (n >= 0)
 		{
+			total = total + header[n].size;
 			printf("%p - %p : %zu byte(s)\n", header[n].zone, header[n].zone + header[n].size - 1, header[n].size);
 			n--;
-		}
+		}	
 		bande = ((t_bande_management *)bande)->next;
 	}
+	printf("Total : %zu bytes\n", total);
 }
