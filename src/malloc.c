@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 16:19:31 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/15 16:23:40 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,13 @@ void					*initialize_bande(size_t size)
 {
 	size_t				tiny;
 	size_t				small;
-	size_t				large;
 	size_t				zone;
 	t_bande_management	*bande;
 	t_bande_management	*last_bande;
 
 	tiny = getpagesize();
 	small = tiny * 100;
-	large = small * 100;
-		
+
 	if (size <= tiny)
 		zone = (tiny * 100) + getHeaderPageSize();
 	else if (size > tiny && size <= small)
