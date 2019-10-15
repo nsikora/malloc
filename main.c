@@ -13,8 +13,8 @@ int main()
     for (int n = 0 ; n < 1024 ; n ++) {
         str[n] = ft_malloc(getpagesize());
         memcpy(str[n], "Hello World !", 14);
-//printf("%p\n", str[n]);
-        //        printf("%p, %p, %s, %d\n", str[n], str[n] + getpagesize(), str[n], n);
+		printf("%p\n", str[n]);
+      	printf("%p, %p, %s, %d\n", str[n], str[n] + getpagesize(), str[n], n);
     }
 
     for (int n = 0 ; n < 1024 ; n ++) {
