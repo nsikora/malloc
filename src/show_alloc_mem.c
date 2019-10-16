@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/16 11:10:57 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/16 11:39:45 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void			display_bande(void *bande)
 		ft_putstr("SMALL : ");
 	else
 		ft_putstr("LARGE : ");
-	printf("%p - %zu\n", bande, bande_size);
+	printf("%p\n", bande);
 }
 
 void			show_alloc_mem(void)

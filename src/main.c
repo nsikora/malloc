@@ -15,7 +15,7 @@ int main()
     	//ft_free(str[n]);
     }
 	for (int n = 0 ; n < 5; n ++) {
-		ptr[n] = ft_malloc(getpagesize() * 10002);
+		ptr[n] = ft_malloc(getpagesize() * 100);
  		//ft_free(ptr[n]);
 	}
 	show_alloc_mem();
