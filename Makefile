@@ -6,7 +6,7 @@
 #    By: nsikora <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/23 16:56:40 by nsikora           #+#    #+#              #
-#    Updated: 2019/10/15 15:52:56 by nsikora          ###   ########.fr        #
+#    Updated: 2019/10/16 14:41:37 by nsikora          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,11 @@ RM	=	/bin/rm -f
 
 SRCDIRS	=	src
 
-SRCS	=	main.c			\
-		malloc.c		\
-		show_alloc_mem.c	\
-		free.c			\
+SRCS	=	main.c				\
+			malloc.c			\
+			free.c				\
+			realloc.c			\
+			show_alloc_mem.c	\
 
 INCLUDE	=	-I includes -I libft
 

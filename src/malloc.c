@@ -6,15 +6,15 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/16 11:45:01 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/16 14:38:19 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/malloc.h"
+#include "malloc.h"
 
 t_page_management *g_controller = NULL;
 
-char					initialize_controller(void)
+static char					initialize_controller(void)
 {
 	if ((g_controller = mmap(NULL, getpagesize(), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (0);
@@ -23,7 +23,7 @@ char					initialize_controller(void)
 	return (1);
 }
 
-size_t					getHeaderPageSize(int header_nb)
+static size_t					get_header_page_size(int header_nb)
 {
 	size_t				size;
 
@@ -33,7 +33,7 @@ size_t					getHeaderPageSize(int header_nb)
 	return (size * g_controller->pagesize);
 }
 
-void					*bande_retriever(void)
+static void					*bande_retriever(void)
 {
 	t_bande_management *bande = g_controller->bande;
 
@@ -42,7 +42,7 @@ void					*bande_retriever(void)
 	return (bande);
 }
 
-void					*initialize_bande(size_t size)
+static void					*initialize_bande(size_t size)
 {
 	size_t				tiny;
 	size_t				small;
@@ -54,11 +54,11 @@ void					*initialize_bande(size_t size)
 	small = tiny * 100;
 
 	if (size <= tiny)
-		zone = (tiny * 100) + getHeaderPageSize(100);
+		zone = (tiny * 100) + get_header_page_size(100);
 	else if (size > tiny && size <= small)
-		zone = (small * 100) + getHeaderPageSize(100);
+		zone = (small * 100) + get_header_page_size(100);
 	else
-		zone = size + getHeaderPageSize(1);
+		zone = size + get_header_page_size(1);
 	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	if (!g_controller->bande)
@@ -73,7 +73,7 @@ void					*initialize_bande(size_t size)
 	return (bande);
 }
 
-void					*write_memory(size_t size, void *bande)
+static void					*write_memory(size_t size, void *bande)
 {
     t_header				*headers;
     size_t				content_size;
@@ -93,10 +93,10 @@ void					*write_memory(size_t size, void *bande)
     return (headers[n].zone);
 }
 
-void					*ft_bande_checker(size_t size)
+static void					*bande_checker(size_t size)
 {
     void				*bande;
-    t_header				*header;
+    t_header			*header;
     int					n;
 
     bande = g_controller->bande;
@@ -108,7 +108,8 @@ void					*ft_bande_checker(size_t size)
         while (header[n].zone)
             n = n + 1;
 
-        if (header[n - 1].zone - (void *)(header + n + 1) - sizeof(t_header) >= size && size * 100 <= ((t_bande_management *)bande)->size)
+        if (header[n - 1].zone - (void *)(header + n + 1) - sizeof(t_header) >= size
+			&& size * 100 <= ((t_bande_management *)bande)->size)
             return (bande);
 
         bande = ((t_bande_management *)bande)->next;
@@ -116,14 +117,14 @@ void					*ft_bande_checker(size_t size)
     return (NULL);
 }
 
-void					*ft_malloc(size_t size)
+void					*malloc(size_t size)
 {
 	char				*str;
 	void				*bande;
 
 	if (!g_controller && !initialize_controller())
 		return (NULL);
-	if ((bande = ft_bande_checker(size)))
+	if ((bande = bande_checker(size)))
 		return (write_memory(size, bande));
 	if (!(bande = initialize_bande(size)))
 		return (NULL);

@@ -6,12 +6,12 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 13:33:27 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/16 14:38:50 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "includes/malloc.h"
+#include "libft.h"
+#include "malloc.h"
 
 static char				free_memory(t_header *header)
 {
@@ -82,7 +82,7 @@ static char				ft_bande_checker(void)
 static char				pointer_finder(void *ptr)
 {
 	void				*bande;
-	int				n;
+	int					n;
 	t_header			*header;
 
 	bande = g_controller->bande;
@@ -101,11 +101,11 @@ static char				pointer_finder(void *ptr)
 	return (-1);
 }
 
-char					ft_free(void *ptr)
+void					free(void *ptr)
 {
 	if (!g_controller || !g_controller->bande || !ptr)
-		return (-1);
+		return ;
 	if (pointer_finder(ptr) == -1)
-		return (-1);
-	return (ft_bande_checker());
+		return ;
+	ft_bande_checker();
 }

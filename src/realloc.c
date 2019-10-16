@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/10 13:48:12 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/16 15:02:48 by nsikora          ###   ########.fr       */
+/*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
+/*   Updated: 2019/10/16 15:23:01 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "malloc.h"
 #include "libft.h"
+#include <stdio.h>
 
-void		*ft_memcpy(void *dst, const void *src, size_t n)
+void		*realloc(void *ptr, size_t size)
 {
-	size_t			i;
-	unsigned char	*c_dst;
-	unsigned char	*c_src;
+	void	*str;
 
-	i = 0;
-	c_dst = (unsigned char *)dst;
-	c_src = (unsigned char *)src;
-	while (i < n)
+	if (!g_controller || size <= 0)
+		return (NULL);
+	if (ptr == NULL)
 	{
-		c_dst[i] = c_src[i];
-		i++;
+		printf("ici\n");
+		return (malloc(size));
 	}
-	return (dst);
+	printf("%zu\n", size);
+	if ((str = malloc(size)) == NULL)
+		return (NULL);
+	ft_memcpy(str, ptr, size);
+	return (str);
 }

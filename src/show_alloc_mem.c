@@ -6,12 +6,12 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/16 11:39:45 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/16 13:54:50 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/malloc.h"
-#include "libft/libft.h"
+#include "malloc.h"
+#include "libft.h"
 #include <stdio.h>
 
 void			display_bande(void *bande)

@@ -1,6 +1,15 @@
-//
-// Created by nathan on 25/09/2019.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/16 15:08:48 by nsikora           #+#    #+#             */
+/*   Updated: 2019/10/16 15:23:10 by nsikora          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/malloc.h"
 #include <sys/mman.h>
 #include <stdio.h>
@@ -9,15 +18,19 @@
 int main()
 {
     char    *(str[1024]);
+	char	*test;
 	char	*(ptr[2]);
    	for (int n = 0 ; n < 100; n ++) {
-		str[n] = ft_malloc(getpagesize());
-    	//ft_free(str[n]);
+		str[n] = malloc(getpagesize());
+		test = realloc(str[n], 40960);
+		//printf("realloc: %s\n", test);
+		//free(str[n]);
+		//free(test);
     }
 	for (int n = 0 ; n < 5; n ++) {
-		ptr[n] = ft_malloc(getpagesize() * 100);
- 		//ft_free(ptr[n]);
+		ptr[n] = malloc(getpagesize() * 100);
+ 		free(ptr[n]);
 	}
 	show_alloc_mem();
-   return (0);
+	return (0);
 }
