@@ -6,20 +6,29 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/16 15:52:34 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/16 16:28:56 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft.h"
 
+void		*reallocf(void *ptr, size_t size)
+{
+	char	*str;
+
+	str = realloc(ptr, size);
+	free(ptr);
+	return (str);
+}
+
 void		*realloc(void *ptr, size_t size)
 {
 	void	*str;
 
-	if (!g_controller || size <= 0)
+	if (size <= 0)
 		return (NULL);
-	if (ptr == NULL)
+	if (!ptr)
 		return (malloc(size));
 	if ((str = malloc(size)) == NULL)
 		return (NULL);
