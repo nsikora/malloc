@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 17:00:07 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/16 11:10:57 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,24 @@
 
 void			display_bande(void *bande)
 {
-	if (((t_bande_management *)bande)->size <=  g_controller->pagesize * 101)
+	size_t		bande_size;
+
+	bande_size = ((t_bande_management *)bande)->size;
+	if (bande_size ==  g_controller->pagesize * 101)
 		ft_putstr("TINY : ");
-	else if (((t_bande_management *)bande)->size >  g_controller->pagesize * 101
-	&& ((t_bande_management *)bande)->size <=  g_controller->pagesize * 10001)
+	else if (bande_size >  g_controller->pagesize * 101
+	&& ((t_bande_management *)bande)->size ==  g_controller->pagesize * 10001)
 		ft_putstr("SMALL : ");
 	else
 		ft_putstr("LARGE : ");
-	printf("%p\n", bande);
+	printf("%p - %zu\n", bande, bande_size);
 }
 
 void			show_alloc_mem(void)
 {
 	void		*bande;
 	t_header	*header;
-	int		n;
+	int			n;
 	size_t		total;
 
 	if (!g_controller || !g_controller->bande)

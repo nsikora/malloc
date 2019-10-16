@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 16:52:44 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/16 11:14:36 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ char					initialize_controller(void)
 	return (1);
 }
 
-size_t					getHeaderPageSize(void)
+size_t					getHeaderPageSize(int header_nb)
 {
 	size_t				size;
 
-	size = sizeof(t_header) * 100 + sizeof(t_bande_management);
+	size = sizeof(t_header) * header_nb + sizeof(t_bande_management);
 	size = (size % g_controller->pagesize) ?
 		size / g_controller->pagesize + 1 : size / g_controller->pagesize;
 	return (size * g_controller->pagesize);
@@ -54,11 +54,11 @@ void					*initialize_bande(size_t size)
 	small = tiny * 100;
 
 	if (size <= tiny)
-		zone = (tiny * 100) + getHeaderPageSize();
+		zone = (tiny * 100) + getHeaderPageSize(100);
 	else if (size > tiny && size <= small)
-		zone = (small * 100) + getHeaderPageSize();
+		zone = (small * 100) + getHeaderPageSize(100);
 	else
-		zone = size;
+		zone = size + getHeaderPageSize(1);
 	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	if (!g_controller->bande)
@@ -108,7 +108,7 @@ void					*ft_bande_checker(size_t size)
         while (header[n].zone)
             n = n + 1;
 
-        if (header[n - 1].zone - (void *)(header + n + 1) - sizeof(t_header) >= size)
+        if (header[n - 1].zone - (void *)(header + n + 1) - sizeof(t_header) >= size && size * 100 <= ((t_bande_management *)bande)->size)
             return (bande);
 
         bande = ((t_bande_management *)bande)->next;
