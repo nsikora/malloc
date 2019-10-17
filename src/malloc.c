@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/16 16:13:59 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/17 14:51:24 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ static void					*initialize_bande(size_t size)
 static void					*write_memory(size_t size, void *bande)
 {
     t_header				*headers;
-    size_t				content_size;
-    int					n;
+    size_t					content_size;
+    int						n;
 
     headers = ((t_header *)(bande) + sizeof(t_bande_management));
     n = 0;
@@ -89,7 +89,6 @@ static void					*write_memory(size_t size, void *bande)
     }
     headers[n].zone = bande + (((t_bande_management *)bande)->size - content_size - size);
     headers[n].size = size;
-
     return (headers[n].zone);
 }
 
@@ -111,7 +110,6 @@ static void					*bande_checker(size_t size)
         if (header[n - 1].zone - (void *)(header + n + 1) - sizeof(t_header) >= size
 			&& size * 100 <= ((t_bande_management *)bande)->size)
             return (bande);
-
         bande = ((t_bande_management *)bande)->next;
     }
     return (NULL);
