@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/16 13:54:50 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/17 15:49:42 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,87 @@
 #include "libft.h"
 #include <stdio.h>
 
-void			display_bande(void *bande)
+static void			display_bande(void *bande)
 {
 	size_t		bande_size;
 
 	bande_size = ((t_bande_management *)bande)->size;
-	if (bande_size ==  g_controller->pagesize * 101)
+	if (bande_size == g_controller->pagesize * 101)
 		ft_putstr("TINY : ");
-	else if (bande_size >  g_controller->pagesize * 101
-	&& ((t_bande_management *)bande)->size ==  g_controller->pagesize * 10001)
+	else if (bande_size > g_controller->pagesize * 101
+	&& ((t_bande_management *)bande)->size == g_controller->pagesize * 10001)
 		ft_putstr("SMALL : ");
 	else
 		ft_putstr("LARGE : ");
 	printf("%p\n", bande);
 }
 
-void			show_alloc_mem(void)
+static void			display_address(size_t address_nb)
 {
-	void		*bande;
-	t_header	*header;
-	int			n;
-	size_t		total;
+	size_t			value;
+	size_t			divider;
+
+	ft_putstr("0x");
+	divider = 1;
+	while (divider < address_nb)
+		divider = divider * 16;
+	divider = divider / 16;
+	while (divider >= 1)
+	{
+		value = address_nb / divider;
+		address_nb = address_nb % divider;
+		divider = divider / 16;
+		if (value < 10)
+			ft_putchar('0' + value);
+		else
+			ft_putchar('a' + value - 10);
+	}
+}
+
+static int			print_mem(t_header *header, int n, size_t total)
+{
+	display_address((size_t)header[n].zone);
+	ft_putstr(" - ");
+	display_address((size_t)header[n].zone + header[n].size - 1);
+	ft_putstr(" : ");
+	ft_putnbr(header[n].size);
+	ft_putendl(" byte(s)");
+	total = total + header[n].size;
+	return (total);
+}
+
+static void			print_total(size_t total)
+{
+	ft_putstr("Total : ");
+	ft_putnbr(total);
+	ft_putendl(" byte(s)");
+}
+
+void				show_alloc_mem(void)
+{
+	void			*bande;
+	t_header		*header;
+	int				n;
+	size_t			total;
 
 	if (!g_controller || !g_controller->bande)
 		return ;
-	bande = g_controller->bande;
 	total = 0;
+	bande = g_controller->bande;
 	while (bande)
 	{
 		header = ((t_header *)(bande) + sizeof(t_bande_management));
 		display_bande(bande);
 		n = 0;
 		while (header[n].zone)
-		{
 			n++;
-		}
 		n--;
 		while (n >= 0)
 		{
-			total = total + header[n].size;
-			printf("%p - %p : %zu byte(s)\n", header[n].zone, header[n].zone + header[n].size - 1, header[n].size);
+			total = print_mem(header, n, total);
 			n--;
-		}	
+		}
 		bande = ((t_bande_management *)bande)->next;
 	}
-	printf("Total : %zu bytes\n", total);
+	print_total(total);
 }
