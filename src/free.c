@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 10:58:35 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 12:42:39 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char				ft_bande_checker(void)
 	return (0);
 }
 
-static char				pointer_finder(void *ptr)
+char					pointer_finder(void *ptr, size_t size)
 {
 	void				*bande;
 	int					n;
@@ -92,8 +92,10 @@ static char				pointer_finder(void *ptr)
 		n = 0;
 		while (header[n].zone)
 		{
-			if (header[n].zone == ptr)
+			if (header[n].zone == ptr && size == 0)
 				return (free_memory(header + n));
+			else if (header[n].zone == ptr && size > 0)
+				return (expand_ptr((t_bande_management *)bande, header, n, size));
 			n++;
 		}
 		bande = ((t_bande_management *)bande)->next;
@@ -105,7 +107,7 @@ void					free(void *ptr)
 {
 	if (!g_controller || !g_controller->bande || !ptr)
 		return ;
-	if (pointer_finder(ptr) == -1)
+	if (pointer_finder(ptr, 0) == -1)
 		return ;
 	ft_bande_checker();
 }

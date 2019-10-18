@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 15:08:48 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 11:47:28 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 12:44:23 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int main()
    	
 	for (int n = 0 ; n < 100; n ++) {
 		str[n] = malloc(getpagesize());
-		test[n] = realloc(str[n], 50);
+		test[n] = malloc(50);
     }
 	for (int n = 0 ; n < 100; n ++) {
 		//test[n] = reallocf(str[n], 50);
 		//free(str[n]);
-		free(test[n]);
+		//free(test[n]);
 	}
 	for (int n = 0 ; n < 5; n ++) {
 		ptr[n] = malloc(getpagesize() * 100);
