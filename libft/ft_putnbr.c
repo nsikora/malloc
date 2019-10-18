@@ -6,17 +6,17 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/13 13:57:49 by nsikora           #+#    #+#             */
-/*   Updated: 2017/11/13 15:01:23 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:19:10 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+void	ft_putnbr(size_t n)
 {
-	unsigned int i;
+	size_t i;
 
-	i = (unsigned int)n;
+	i = n;
 	if (n < 0)
 	{
 		ft_putchar('-');

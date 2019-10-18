@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/17 15:49:42 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:22:01 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void			display_address(size_t address_nb)
 	}
 }
 
-static int			print_mem(t_header *header, int n, size_t total)
+static size_t			print_mem(t_header *header, int n, size_t total)
 {
 	display_address((size_t)header[n].zone);
 	ft_putstr(" - ");

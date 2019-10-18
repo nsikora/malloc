@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 14:10:30 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:22:22 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,5 @@ void		*realloc(void *ptr, size_t size)
 		return (NULL);
 	ft_memcpy(str, ptr, size);
 	free(ptr);
-	ft_putendl("I have been freed");
 	return (str);
 }

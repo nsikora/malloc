@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 12:43:32 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/15 15:30:18 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:19:18 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void				ft_striteri(char *s, void(*f)(unsigned int, char *));
 void				ft_putendl(const char *s);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
-void				ft_putnbr(int n);
+void				ft_putnbr(size_t n);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
