@@ -6,25 +6,34 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 14:22:22 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 15:41:49 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft.h"
+#include <stdio.h>
 
 char		expand_ptr(t_bande_management *bande, t_header *header, int n, size_t size)
 {
-	if (!header[n + 1].zone && ((size_t)header[n].zone + size) <= ((size_t)bande + bande->size))
+	if (size * 100 > bande->size)
+		return (-1);
+	if (!header[n + 1].zone && (((size_t)bande + bande->size) < (size_t)header[n].zone + size - 1))
 	{
+		ft_putendl("expand freely");
 		header[n].size = size;
 		return (0);
 	}
-	else if (header[n + 1].zone && ((size_t)header[n].zone + size) < (size_t)header[n + 1].zone)
+	if ((((size_t)header[n + 1].zone) < (size_t)header[n].zone + size - 1
+		|| ((size_t)bande + bande->size) < (size_t)header[n].zone + size - 1))
 	{
+		ft_putendl("expand to next header");
+		printf("%p, %p\n", header[n + 1].zone, header[n].zone);
 		header[n].size = size;
 		return (0);
 	}
+	printf("%d, %p, %p\n", n, header[n + 1].zone, header[n].zone);
+	ft_putendl("error");
 	return (-1);
 }
 
