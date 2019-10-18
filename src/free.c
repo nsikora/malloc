@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 12:42:39 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:05:52 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,22 @@
 
 static char				free_memory(t_header *header)
 {
-	t_header			*last;
 	int					n;
 
-	last = header;
 	n = 0;
-	while (last[n].zone)
+	while (header[n].zone)
 	{
 		if (n > 0)
 		{
-			last[n - 1].zone = last[n].zone;
-			last[n - 1].size = last[n].size;
+			header[n - 1].zone = header[n].zone;
+			header[n - 1].size = header[n].size;
 		}
 		n = n + 1;
 	}
 	if (n > 0)
 		n = n - 1;
-	last[n].zone = NULL;
-	last[n].size = 0;
+	header[n].zone = NULL;
+	header[n].size = 0;
 	return (0);
 }
 

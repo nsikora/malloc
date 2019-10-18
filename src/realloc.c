@@ -6,21 +6,12 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 12:44:38 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:10:30 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft.h"
-
-void		*reallocf(void *ptr, size_t size)
-{
-	char	*str;
-
-	str = realloc(ptr, size);
-	free(ptr);
-	return (str);
-}
 
 char		expand_ptr(t_bande_management *bande, t_header *header, int n, size_t size)
 {
@@ -54,5 +45,6 @@ void		*realloc(void *ptr, size_t size)
 		return (NULL);
 	ft_memcpy(str, ptr, size);
 	free(ptr);
+	ft_putendl("I have been freed");
 	return (str);
 }

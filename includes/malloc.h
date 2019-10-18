@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:55:39 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 12:43:04 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/18 14:10:42 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void						show_alloc_mem(void);
 void						*malloc(size_t size);
 void						free(void *ptr);
 void						*realloc(void *ptr, size_t size);
-void						*reallocf(void *ptr, size_t size);
 char						pointer_finder(void *ptr, size_t size);
 char						expand_ptr(t_bande_management *bande, t_header *header, int n, size_t size);
 size_t						get_header_page_size(int header_nb);
