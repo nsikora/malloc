@@ -6,7 +6,7 @@
 #    By: nsikora <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/23 16:56:40 by nsikora           #+#    #+#              #
-#    Updated: 2019/10/16 14:41:37 by nsikora          ###   ########.fr        #
+#    Updated: 2019/10/18 11:52:18 by nsikora          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCDIRS	=	src
 
 SRCS	=	main.c				\
 			malloc.c			\
+			malloc_utils.c		\
 			free.c				\
 			realloc.c			\
 			show_alloc_mem.c	\
