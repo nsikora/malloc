@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/22 13:21:19 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 14:08:57 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,14 @@ static void					*write_memory(size_t size, void *bande)
 		n = n + 1;
 	}
 	if (headers[n - 1].zone == bande + (((t_bande_management *)bande)->size
-	- content_size - size))
-		spacing++;
+	- content_size - size - spacing))
+		spacing = spacing + 1 + headers[n - 1].size;
 	headers[n].zone = bande + (((t_bande_management *)bande)->size
 	- content_size - size - spacing);
 	headers[n].size = size;
+	printf("ptr 1 is :%p ", headers[n].zone);
+	printf("ptr 2 is :%p ", headers[n - 1].zone);
+	printf("ptr 3 is :%p \n", headers[n - 2].zone);
 	return (headers[n].zone);
 }
 
