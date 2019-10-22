@@ -6,20 +6,19 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 15:08:48 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/22 13:19:15 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 12:52:27 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/malloc.h"
 #include <stdio.h>
 #include <sys/mman.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main()
 {
     char    *(str[1024]);
-	char	*(lel[100]);
 	char	*test[100];
 	char	*(ptr[2]);
    	
@@ -28,9 +27,7 @@ int main()
 		//free(str[n]);
 		//free(str[n]);
 		test[n] = malloc(16);
-		lel[n] = malloc(24);
 		printf("str : %p - test : %p\n", str[n], test[n]);
-		free(lel[n]);
 		free(str[n]);
 		//test[n] = realloc(str[n], 16);
 		//free(test[n]);

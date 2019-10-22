@@ -6,11 +6,12 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 17:03:57 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 13:21:19 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include <stdio.h>
 
 t_page_management *g_controller = NULL;
 
@@ -51,17 +52,22 @@ static void					*write_memory(size_t size, void *bande)
 	t_header				*headers;
 	size_t					content_size;
 	int						n;
+	int						spacing;
 
 	headers = ((t_header *)(bande) + sizeof(t_bande_management));
 	n = 0;
+	spacing = 0;
 	content_size = 0;
 	while (headers[n].zone)
 	{
 		content_size += headers[n].size;
 		n = n + 1;
 	}
+	if (headers[n - 1].zone == bande + (((t_bande_management *)bande)->size
+	- content_size - size))
+		spacing++;
 	headers[n].zone = bande + (((t_bande_management *)bande)->size
-	- content_size - size);
+	- content_size - size - spacing);
 	headers[n].size = size;
 	return (headers[n].zone);
 }
