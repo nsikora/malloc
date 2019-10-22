@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 15:08:48 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/22 15:45:01 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:50:44 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int main()
 		//free(str[n]);
 		test[n] = malloc(16);
 		lel[n] = malloc(8);
-		//printf("str : %p - test : %p\n", str[n], test[n]);
+		printf("str : %p - test : %p\n", str[n], test[n]);
 		//free(lel[n]);
-		//free(str[n]);
-		free(test[n]);
+		free(str[n]);
+		//free(test[n]);
 		//test[n] = realloc(str[n], 16);
 		//free(test[n]);
     }
