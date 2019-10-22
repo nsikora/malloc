@@ -6,17 +6,17 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/22 15:39:14 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 16:11:59 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft.h"
 
-static void     display_address(size_t address_nb)
+static void		display_address(size_t address_nb)
 {
-	size_t      value;
-	size_t      divider;
+	size_t		value;
+	size_t		divider;
 
 	ft_putstr("0x");
 	divider = 1;
