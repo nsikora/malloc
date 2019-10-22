@@ -6,25 +6,25 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 11:47:49 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 17:01:47 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:29:57 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-size_t					get_header_page_size(int header_nb)
+size_t		get_header_page_size(int header_nb)
 {
-	size_t				size;
+	size_t	size;
 
-	size = sizeof(t_header) * header_nb + sizeof(t_bande_management);
+	size = sizeof(t_header) * header_nb + sizeof(t_bande);
 	size = (size % g_controller->pagesize) ?
 	size / g_controller->pagesize + 1 : size / g_controller->pagesize;
 	return (size * g_controller->pagesize);
 }
 
-void					*bande_retriever(void)
+void		*bande_retriever(void)
 {
-	t_bande_management	*bande;
+	t_bande	*bande;
 
 	bande = g_controller->bande;
 	while (bande->next)
@@ -32,11 +32,11 @@ void					*bande_retriever(void)
 	return (bande);
 }
 
-size_t					select_zone_size(size_t size)
+size_t		select_zone_size(size_t size)
 {
-	size_t				tiny;
-	size_t				small;
-	size_t				zone;
+	size_t	tiny;
+	size_t	small;
+	size_t	zone;
 
 	tiny = getpagesize();
 	small = tiny * 100;

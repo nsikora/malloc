@@ -6,16 +6,15 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/22 14:08:57 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:45:13 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <stdio.h>
 
-t_page_management *g_controller = NULL;
+t_page *g_controller = NULL;
 
-static char					initialize_controller(void)
+static char		initialize_controller(void)
 {
 	if ((g_controller = mmap(NULL, getpagesize(), PROT_READ
 	| PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
@@ -25,11 +24,11 @@ static char					initialize_controller(void)
 	return (1);
 }
 
-static void					*initialize_bande(size_t size)
+static void		*initialize_bande(size_t size)
 {
-	size_t					zone;
-	t_bande_management		*bande;
-	t_bande_management		*last_bande;
+	size_t		zone;
+	t_bande		*bande;
+	t_bande		*last_bande;
 
 	zone = select_zone_size(size);
 	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON
@@ -47,14 +46,14 @@ static void					*initialize_bande(size_t size)
 	return (bande);
 }
 
-static void					*write_memory(size_t size, void *bande)
+static void		*write_memory(size_t size, void *bande)
 {
-	t_header				*headers;
-	size_t					content_size;
-	int						n;
-	int						spacing;
+	t_header	*headers;
+	size_t		content_size;
+	int			n;
+	int			spacing;
 
-	headers = ((t_header *)(bande) + sizeof(t_bande_management));
+	headers = ((t_header *)(bande) + sizeof(t_bande));
 	n = 0;
 	spacing = 0;
 	content_size = 0;
@@ -63,43 +62,40 @@ static void					*write_memory(size_t size, void *bande)
 		content_size += headers[n].size;
 		n = n + 1;
 	}
-	if (headers[n - 1].zone == bande + (((t_bande_management *)bande)->size
+	if (headers[n - 1].zone == bande + (((t_bande *)bande)->size
 	- content_size - size - spacing))
-		spacing = spacing + 1 + headers[n - 1].size;
-	headers[n].zone = bande + (((t_bande_management *)bande)->size
+		spacing = spacing + 1 + headers[n].size;
+	headers[n].zone = bande + (((t_bande *)bande)->size
 	- content_size - size - spacing);
 	headers[n].size = size;
-	printf("ptr 1 is :%p ", headers[n].zone);
-	printf("ptr 2 is :%p ", headers[n - 1].zone);
-	printf("ptr 3 is :%p \n", headers[n - 2].zone);
 	return (headers[n].zone);
 }
 
-static void					*bande_checker(size_t size)
+static void		*bande_checker(size_t size)
 {
-	void					*bande;
-	t_header				*header;
-	int						n;
+	void		*bande;
+	t_header	*header;
+	int			n;
 
 	bande = g_controller->bande;
 	while (bande)
 	{
-		header = ((t_header *)(bande) + sizeof(t_bande_management));
+		header = ((t_header *)(bande) + sizeof(t_bande));
 		n = 0;
 		while (header[n].zone)
 			n = n + 1;
 		if (header[n - 1].zone - (void *)(header + n + 1) - sizeof(t_header)
-		>= size && size * 100 <= ((t_bande_management *)bande)->size)
+		>= size && size * 100 <= ((t_bande *)bande)->size)
 			return (bande);
-		bande = ((t_bande_management *)bande)->next;
+		bande = ((t_bande *)bande)->next;
 	}
 	return (NULL);
 }
 
-void						*malloc(size_t size)
+void			*malloc(size_t size)
 {
-	char					*str;
-	void					*bande;
+	char		*str;
+	void		*bande;
 
 	if (!g_controller && !initialize_controller())
 		return (NULL);

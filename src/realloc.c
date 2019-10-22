@@ -6,14 +6,14 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 16:29:12 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:13:33 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft.h"
 
-char		expand_ptr(t_bande_management *bande, t_header *header, int n, size_t size)
+char		expand_ptr(t_bande *bande, t_header *header, int n, size_t size)
 {
 	if (size * 100 > bande->size)
 		return (-1);
@@ -40,7 +40,7 @@ void		*realloc(void *ptr, size_t size)
 	if (!ptr)
 		return (malloc(size));
 	if (pointer_finder(ptr, size) == 0)
-		return ptr;
+		return (ptr);
 	if ((str = malloc(size)) == NULL)
 		return (NULL);
 	ft_memcpy(str, ptr, size);

@@ -6,39 +6,22 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 13:25:18 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 14:22:01 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:39:14 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft.h"
-#include <stdio.h>
 
-static void			display_bande(void *bande)
+static void     display_address(size_t address_nb)
 {
-	size_t		bande_size;
-
-	bande_size = ((t_bande_management *)bande)->size;
-	if (bande_size == g_controller->pagesize * 101)
-		ft_putstr("TINY : ");
-	else if (bande_size > g_controller->pagesize * 101
-	&& ((t_bande_management *)bande)->size == g_controller->pagesize * 10001)
-		ft_putstr("SMALL : ");
-	else
-		ft_putstr("LARGE : ");
-	printf("%p\n", bande);
-}
-
-static void			display_address(size_t address_nb)
-{
-	size_t			value;
-	size_t			divider;
+	size_t      value;
+	size_t      divider;
 
 	ft_putstr("0x");
 	divider = 1;
-	while (divider < address_nb)
+	while (divider < address_nb / 16)
 		divider = divider * 16;
-	divider = divider / 16;
 	while (divider >= 1)
 	{
 		value = address_nb / divider;
@@ -51,7 +34,22 @@ static void			display_address(size_t address_nb)
 	}
 }
 
-static size_t			print_mem(t_header *header, int n, size_t total)
+static void		display_bande(void *bande)
+{
+	size_t		bande_size;
+
+	bande_size = ((t_bande *)bande)->size;
+	if (bande_size == g_controller->pagesize * 101)
+		ft_putstr("TINY : ");
+	else if (bande_size == g_controller->pagesize * 10001)
+		ft_putstr("SMALL : ");
+	else
+		ft_putstr("LARGE : ");
+	display_address((size_t)bande);
+	ft_putchar('\n');
+}
+
+static size_t	print_mem(t_header *header, int n, size_t total)
 {
 	display_address((size_t)header[n].zone);
 	ft_putstr(" - ");
@@ -63,19 +61,19 @@ static size_t			print_mem(t_header *header, int n, size_t total)
 	return (total);
 }
 
-static void			print_total(size_t total)
+static void		print_total(size_t total)
 {
 	ft_putstr("Total : ");
 	ft_putnbr(total);
 	ft_putendl(" byte(s)");
 }
 
-void				show_alloc_mem(void)
+void			show_alloc_mem(void)
 {
-	void			*bande;
-	t_header		*header;
-	int				n;
-	size_t			total;
+	void		*bande;
+	t_header	*header;
+	int			n;
+	size_t		total;
 
 	if (!g_controller || !g_controller->bande)
 		return ;
@@ -83,7 +81,7 @@ void				show_alloc_mem(void)
 	bande = g_controller->bande;
 	while (bande)
 	{
-		header = ((t_header *)(bande) + sizeof(t_bande_management));
+		header = ((t_header *)(bande) + sizeof(t_bande));
 		display_bande(bande);
 		n = 0;
 		while (header[n].zone)
@@ -94,7 +92,7 @@ void				show_alloc_mem(void)
 			total = print_mem(header, n, total);
 			n--;
 		}
-		bande = ((t_bande_management *)bande)->next;
+		bande = ((t_bande *)bande)->next;
 	}
 	print_total(total);
 }

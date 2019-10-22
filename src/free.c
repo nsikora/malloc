@@ -6,16 +6,16 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 16:51:59 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:13:07 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "malloc.h"
 
-static char				free_memory(t_header *header)
+static char			free_memory(t_header *header)
 {
-	int					n;
+	int		n;
 
 	n = 0;
 	while (header[n].zone)
@@ -34,74 +34,74 @@ static char				free_memory(t_header *header)
 	return (0);
 }
 
-static char				ft_bande_liberator(void *ptr)
+static char			ft_bande_liberator(void *ptr)
 {
-	t_bande_management	*management;
-	t_bande_management	*tmp;
+	t_bande				*management;
+	t_bande				*tmp;
 
-	management = (t_bande_management *)ptr;
+	management = (t_bande *)ptr;
 	tmp = g_controller->bande;
 	if (tmp == ptr)
-		g_controller->bande = ((t_bande_management *)ptr)->next;
+		g_controller->bande = ((t_bande *)ptr)->next;
 	else
 	{
 		while (tmp->next != ptr)
 			tmp = tmp->next;
-		tmp->next = ((t_bande_management *)ptr)->next;
+		tmp->next = ((t_bande *)ptr)->next;
 	}
 	return ((char)munmap(ptr, management->size));
 }
 
-static char				ft_bande_checker(void)
+static char			ft_bande_checker(void)
 {
-	unsigned int		n;
-	void				*bande;
-	t_header			*header;
-	void				*ptr;
+	unsigned int	n;
+	void			*bande;
+	t_header		*header;
+	void			*ptr;
 
 	bande = g_controller->bande;
 	n = 0;
 	ptr = NULL;
 	while (bande)
 	{
-		header = ((t_header *)(bande) + sizeof(t_bande_management));
+		header = ((t_header *)(bande) + sizeof(t_bande));
 		if (!(*header).zone)
 		{
 			ptr = bande;
 			n = n + 1;
 		}
-		bande = ((t_bande_management *)bande)->next;
+		bande = ((t_bande *)bande)->next;
 	}
 	if (n > 1)
 		return (ft_bande_liberator(ptr));
 	return (0);
 }
 
-char					pointer_finder(void *ptr, size_t size)
+char				pointer_finder(void *ptr, size_t size)
 {
-	void				*bande;
-	int					n;
-	t_header			*header;
+	void			*bande;
+	int				n;
+	t_header		*header;
 
 	bande = g_controller->bande;
 	while (bande)
 	{
-		header = ((t_header *)(bande) + sizeof(t_bande_management));
+		header = ((t_header *)(bande) + sizeof(t_bande));
 		n = 0;
 		while (header[n].zone)
 		{
 			if (header[n].zone == ptr && size == 0)
 				return (free_memory(header + n));
 			else if (header[n].zone == ptr && size > 0)
-				return (expand_ptr((t_bande_management *)bande, header, n, size));
+				return (expand_ptr((t_bande *)bande, header, n, size));
 			n++;
 		}
-		bande = ((t_bande_management *)bande)->next;
+		bande = ((t_bande *)bande)->next;
 	}
 	return (-1);
 }
 
-void					free(void *ptr)
+void				free(void *ptr)
 {
 	if (!g_controller || !g_controller->bande || !ptr)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:55:39 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/18 16:00:33 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:07:22 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,28 @@ typedef struct				s_header
 	size_t					size;
 }							t_header;
 
-typedef struct				s_bande_management
+typedef struct				s_bande
 {
 	size_t					size;
 	void					*next;
-}							t_bande_management;
+}							t_bande;
 
-typedef struct				s_page_management
+typedef struct				s_page
 {
 	size_t					pagesize;
 	void					*bande;
-}							t_page_management;
+}							t_page;
 
 void						show_alloc_mem(void);
 void						*malloc(size_t size);
 void						free(void *ptr);
 void						*realloc(void *ptr, size_t size);
 char						pointer_finder(void *ptr, size_t size);
-char						expand_ptr(t_bande_management *bande, t_header *header, int n, size_t size);
+char						expand_ptr(t_bande *bande, t_header *header, int n, size_t size);
 size_t						get_header_page_size(int header_nb);
 void						*bande_retriever(void);
 size_t						select_zone_size(size_t size);
 
-extern t_page_management	*g_controller;
+extern t_page				*g_controller;
 
 #endif
