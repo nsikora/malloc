@@ -6,11 +6,12 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/22 16:11:33 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/10/30 16:19:22 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include "libft.h"
 
 t_page *g_controller = NULL;
 
@@ -51,22 +52,22 @@ static void		*write_memory(size_t size, void *bande)
 	t_header	*headers;
 	size_t		content_size;
 	int			n;
-	int			spacing;
+	int			modifier;
 
 	headers = ((t_header *)(bande) + sizeof(t_bande));
 	n = 0;
-	spacing = 0;
+	modifier = 0;
 	content_size = 0;
 	while (headers[n].zone)
 	{
 		content_size += headers[n].size;
 		n = n + 1;
 	}
-	if (headers[n - 1].zone == bande + (((t_bande *)bande)->size
-	- content_size - size - spacing))
-		spacing = spacing + size;
+	while (n > 0 && ((size_t)bande + ((t_bande *)bande)->size - content_size - modifier - 1)
+	> (size_t)headers[n - 1].zone)
+		modifier++;
 	headers[n].zone = bande + (((t_bande *)bande)->size
-	- content_size - size - spacing);
+	- content_size - size - modifier);
 	headers[n].size = size;
 	return (headers[n].zone);
 }
@@ -97,12 +98,16 @@ void			*malloc(size_t size)
 	char		*str;
 	void		*bande;
 
-	if (!g_controller && !initialize_controller())
+	ft_putendl("appel a malloc");
+	if ((!g_controller && !initialize_controller()) || size <= 0)
 		return (NULL);
 	if ((bande = bande_checker(size)))
-		return (write_memory(size, bande));
+	{
+		str = write_memory(size, bande);
+		return (str);
+	}
 	if (!(bande = initialize_bande(size)))
-		return (NULL);
+		return (NULL);;
 	str = write_memory(size, bande);
 	return (str);
 }
