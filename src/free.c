@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/30 16:17:55 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/04 12:52:40 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ char				pointer_finder(void *ptr, size_t size)
 
 void				free(void *ptr)
 {
-	ft_putendl("appel a free");
 	if (!g_controller || !g_controller->bande || !ptr)
 		return ;
 	if (pointer_finder(ptr, 0) == -1)

@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/10/30 16:19:22 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/04 12:52:53 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void			*malloc(size_t size)
 	char		*str;
 	void		*bande;
 
-	ft_putendl("appel a malloc");
 	if ((!g_controller && !initialize_controller()) || size <= 0)
 		return (NULL);
 	if ((bande = bande_checker(size)))
