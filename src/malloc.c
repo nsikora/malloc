@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/11/04 12:52:53 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/08 15:57:37 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,15 @@ void			*malloc(size_t size)
 
 	if ((!g_controller && !initialize_controller()) || size <= 0)
 		return (NULL);
+	if ((size % 16) != 0)
+		size = size + 16 - (size % 16);
 	if ((bande = bande_checker(size)))
 	{
 		str = write_memory(size, bande);
 		return (str);
 	}
 	if (!(bande = initialize_bande(size)))
-		return (NULL);;
+		return (NULL);
 	str = write_memory(size, bande);
 	return (str);
 }

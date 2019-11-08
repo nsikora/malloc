@@ -6,7 +6,7 @@
 #    By: nsikora <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/23 16:56:40 by nsikora           #+#    #+#              #
-#    Updated: 2019/10/30 11:28:26 by nsikora          ###   ########.fr        #
+#    Updated: 2019/11/08 13:18:19 by nsikora          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,7 @@ LN			=	ln -fs
 
 SRCDIRS		=	src
 
-SRCS		=	main.c				\
-				malloc.c			\
+SRCS		=	malloc.c			\
 				malloc_utils.c		\
 				free.c				\
 				realloc.c			\
