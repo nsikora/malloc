@@ -6,18 +6,17 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
-/*   Updated: 2019/11/08 17:12:41 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/13 15:11:56 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include "libft.h"
-#include <stdio.h>
 
-char		expand_ptr(t_bande *bande, t_header *header, int n, size_t size)
+size_t		expand_ptr(t_bande *bande, t_header *header, int n, size_t size)
 {
 	if (size * 100 > bande->size)
-		return (-1);
+		return (header[n].size);
 	if ((((size_t)header[n].zone) < (size_t)header[n - 1].zone - size)
 	|| (n == 0 && ((size_t)bande + bande->size > size)))
 	{
@@ -34,17 +33,16 @@ void		*realloc(void *ptr, size_t size)
 
 	if (size <= 0)
 	{
-	 	free(ptr);
- 		return (NULL);
- 	}
-	if (!g_controller || !g_controller->bande || !ptr)
-	{
-		str = malloc(size);
-		return (str);
+		free(ptr);
+		return (NULL);
 	}
+	if ((size % 16) != 0)
+		size = size + 16 - (size % 16);
+	if (!g_controller || !g_controller->bande || !ptr)
+		return (malloc(size));
 	if ((size_malloc = pointer_finder(ptr, size)) == 0)
 		return (ptr);
-	if (!(str = malloc(size)))
+	if ((str = malloc(size)) == NULL)
 		return (NULL);
 	if (size_malloc < size)
 		size = size_malloc;

@@ -6,14 +6,14 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/11/08 17:02:26 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/13 14:44:52 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "malloc.h"
 
-static char			free_memory(t_header *header)
+static size_t		free_memory(t_header *header)
 {
 	int		n;
 
@@ -36,8 +36,8 @@ static char			free_memory(t_header *header)
 
 static char			ft_bande_liberator(void *ptr)
 {
-	t_bande				*management;
-	t_bande				*tmp;
+	t_bande			*management;
+	t_bande			*tmp;
 
 	management = (t_bande *)ptr;
 	tmp = g_controller->bande;
@@ -77,7 +77,7 @@ static char			ft_bande_checker(void)
 	return (0);
 }
 
-char				pointer_finder(void *ptr, size_t size)
+size_t				pointer_finder(void *ptr, size_t size)
 {
 	void			*bande;
 	int				n;
@@ -105,7 +105,7 @@ void				free(void *ptr)
 {
 	if (!g_controller || !g_controller->bande || !ptr)
 		return ;
-	if (pointer_finder(ptr, 0) == -1)
+	if (pointer_finder(ptr, 0) > 0)
 		return ;
 	ft_bande_checker();
 }
