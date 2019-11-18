@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/11/13 14:45:32 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/18 16:06:09 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void		*initialize_bande(size_t size)
 	t_bande		*last_bande;
 
 	zone = select_zone_size(size);
-	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE, MAP_ANON
-	| MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((bande = mmap(NULL, zone, PROT_READ | PROT_WRITE,
+		MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	if (!g_controller->bande)
 		g_controller->bande = bande;
@@ -100,11 +100,10 @@ void			*malloc(size_t size)
 
 	if ((!g_controller && !initialize_controller()) || size <= 0)
 		return (NULL);
-	if ((size % 16) != 0)
-		size = size + 16 - (size % 16);
+	size = size + 16 - (size % 16);
 	if ((bande = bande_checker(size)))
 	{
-		str = write_memory(size, bande);
+		str = write_memory(size, bande);;
 		return (str);
 	}
 	if (!(bande = initialize_bande(size)))

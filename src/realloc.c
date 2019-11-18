@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 14:11:55 by nsikora           #+#    #+#             */
-/*   Updated: 2019/11/13 15:11:56 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/18 16:05:54 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void		*realloc(void *ptr, size_t size)
 		free(ptr);
 		return (NULL);
 	}
-	if ((size % 16) != 0)
-		size = size + 16 - (size % 16);
+	size = size + 16 - (size % 16);
 	if (!g_controller || !g_controller->bande || !ptr)
 		return (malloc(size));
 	if ((size_malloc = pointer_finder(ptr, size)) == 0)

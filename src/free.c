@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 11:25:35 by nsikora           #+#    #+#             */
-/*   Updated: 2019/11/13 14:44:52 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/18 15:07:41 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static size_t		free_memory(t_header *header)
 		n = n - 1;
 	header[n].zone = NULL;
 	header[n].size = 0;
-	return (0);
+	return (1);
 }
 
-static char			ft_bande_liberator(void *ptr)
+static void			ft_bande_liberator(void *ptr)
 {
 	t_bande			*management;
 	t_bande			*tmp;
@@ -49,10 +49,10 @@ static char			ft_bande_liberator(void *ptr)
 			tmp = tmp->next;
 		tmp->next = ((t_bande *)ptr)->next;
 	}
-	return ((char)munmap(ptr, management->size));
+	munmap(ptr, management->size);
 }
 
-static char			ft_bande_checker(void)
+static void			ft_bande_checker(void)
 {
 	unsigned int	n;
 	void			*bande;
@@ -73,8 +73,7 @@ static char			ft_bande_checker(void)
 		bande = ((t_bande *)bande)->next;
 	}
 	if (n > 1)
-		return (ft_bande_liberator(ptr));
-	return (0);
+		ft_bande_liberator(ptr);
 }
 
 size_t				pointer_finder(void *ptr, size_t size)
@@ -92,20 +91,19 @@ size_t				pointer_finder(void *ptr, size_t size)
 		{
 			if (header[n].zone == ptr && size == 0)
 				return (free_memory(header + n));
-			else if (header[n].zone == ptr && size > 0)
+			if (header[n].zone == ptr && size > 0)
 				return (expand_ptr((t_bande *)bande, header, n, size));
 			n++;
 		}
 		bande = ((t_bande *)bande)->next;
 	}
-	return (-1);
+	return (0);
 }
 
 void				free(void *ptr)
 {
 	if (!g_controller || !g_controller->bande || !ptr)
 		return ;
-	if (pointer_finder(ptr, 0) > 0)
-		return ;
-	ft_bande_checker();
+	if (pointer_finder(ptr, 0) == 1)
+		ft_bande_checker();
 }
