@@ -6,7 +6,7 @@
 /*   By: nsikora <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 10:49:01 by nsikora           #+#    #+#             */
-/*   Updated: 2019/11/18 16:06:09 by nsikora          ###   ########.fr       */
+/*   Updated: 2019/11/20 10:24:19 by nsikora          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void		*bande_checker(size_t size)
 	bande = g_controller->bande;
 	while (bande)
 	{
-		header = ((t_header *)(bande) + sizeof(t_bande));
+		header = (t_header *)((bande) + sizeof(t_bande));
 		n = 0;
 		while (header[n].zone)
 			n = n + 1;
@@ -98,12 +98,13 @@ void			*malloc(size_t size)
 	char		*str;
 	void		*bande;
 
-	if ((!g_controller && !initialize_controller()) || size <= 0)
+	if ((!g_controller && !initialize_controller()) || size == 0)
 		return (NULL);
-	size = size + 16 - (size % 16);
+	if (size % 16 != 0)
+		size = size + 16 - (size % 16);
 	if ((bande = bande_checker(size)))
 	{
-		str = write_memory(size, bande);;
+		str = write_memory(size, bande);
 		return (str);
 	}
 	if (!(bande = initialize_bande(size)))
